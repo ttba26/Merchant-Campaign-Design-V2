@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>营销活动设计指南 - 首页</title>
+    <!-- 引入Tailwind CSS（快速实现样式） -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome（图标库） -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- 自定义Tailwind配置（统一色彩/字体） -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF7A45',    // 主色（橙色）
+                        secondary1: '#E8F3FF', // 辅助色1（浅蓝）
+                        secondary2: '#F5F5F5', // 辅助色2（浅灰）
+                        warning: '#FF4D4F',    // 警示色（红色）
+                        text1: '#333333',      // 文本色1（深灰）
+                        text2: '#666666',      // 文本色2（中灰）
+                        text3: '#999999',      // 文本色3（浅灰）
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'], // 中文无衬线字体
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white font-sans text-text2">
+    <!-- 顶部固定导航栏 -->
+    <header class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!--  Logo -->
+            <a href="index.html" class="text-primary text-2xl font-bold">营销活动指南</a>
+            
+            <!--  PC端导航（lg以上显示） -->
+            <nav class="hidden lg:flex items-center space-x-8">
+                <a href="index.html" class="text-primary font-medium">首页</a>
+                <a href="activity-types.html" class="hover:text-primary transition-colors">活动类型大全</a>
+                <a href="matching-tool.html" class="hover:text-primary transition-colors">智能匹配工具</a>
+                <a href="cases.html" class="hover:text-primary transition-colors">行业案例</a>
+                <a href="#" class="hover:text-primary transition-colors">策划指南</a>
+                <a href="#" class="hover:text-primary transition-colors">资源下载</a>
+            </nav>
+            
+            <!--  移动端汉堡菜单（lg以下显示） -->
+            <button id="menuBtn" class="lg:hidden text-text1 text-xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        
+        <!--  移动端侧边导航（默认隐藏） -->
+        <div id="mobileMenu" class="fixed top-14 left-0 right-0 bg-white border-b border-gray-200 lg:hidden hidden">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="index.html" class="py-2 text-primary font-medium">首页</a>
+                <a href="activity-types.html" class="py-2 hover:text-primary transition-colors">活动类型大全</a>
+                <a href="matching-tool.html" class="py-2 hover:text-primary transition-colors">智能匹配工具</a>
+                <a href="cases.html" class="py-2 hover:text-primary transition-colors">行业案例</a>
+                <a href="#" class="py-2 hover:text-primary transition-colors">策划指南</a>
+                <a href="#" class="py-2 hover:text-primary transition-colors">资源下载</a>
+            </div>
+        </div>
+    </header>
+
+    <!--  主内容区（顶部留导航高度） -->
+    <main class="container mx-auto px-4 pt-24 pb-16">
+        <!--  首页Banner -->
+        <section class="mb-12 text-center">
+            <h1 class="text-[clamp(24px,5vw,28px)] font-bold text-text1 mb-4">营销活动设计指南</h1>
+            <p class="text-lg text-text3 max-w-2xl mx-auto">为餐饮、零售、电商等行业定制高转化优惠方案，从活动策划到落地全流程支持</p>
+        </section>
+
+        <!--  需求场景入口（3个大按钮） -->
+        <section class="mb-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="activity-types.html?target=clear" class="bg-gradient-to-r from-primary to-primary/80 text-white rounded-lg py-10 px-4 text-center hover:shadow-lg transition-shadow">
+                <i class="fa-solid fa-box-archive text-3xl mb-3"></i>
+                <h3 class="text-xl font-medium">我要清库存</h3>
+                <p class="text-white/80 text-sm mt-1">专属折扣+满减方案</p>
+            </a>
+            <a href="cases.html?industry=catering" class="bg-gradient-to-r from-primary to-primary/80 text-white rounded-lg py-10 px-4 text-center hover:shadow-lg transition-shadow">
+                <i class="fa-solid fa-utensils text-3xl mb-3"></i>
+                <h3 class="text-xl font-medium">我是餐饮商家</h3>
+                <p class="text-white/80 text-sm mt-1">会员日+满赠案例</p>
+            </a>
+            <a href="activity-types.html?type=member" class="bg-gradient-to-r from-primary to-primary/80 text-white rounded-lg py-10 px-4 text-center hover:shadow-lg transition-shadow">
+                <i class="fa-solid fa-user-group text-3xl mb-3"></i>
+                <h3 class="text-xl font-medium">我要做会员运营</h3>
+                <p class="text-white/80 text-sm mt-1">积分+专属活动策略</p>
+            </a>
+        </section>
+
+        <!--  核心模块简介 -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-secondary2 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <i class="fa-solid fa-tags text-primary text-2xl mb-4"></i>
+                <h3 class="text-xl font-medium text-text1 mb-2">8大活动类型</h3>
+                <p class="text-text3">覆盖折扣、满减、赠品、抽奖等，适配不同行业需求</p>
+            </div>
+            <div class="bg-secondary2 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <i class="fa-solid fa-magnifying-glass-chart text-primary text-2xl mb-4"></i>
+                <h3 class="text-xl font-medium text-text1 mb-2">智能匹配工具</h3>
+                <p class="text-text3">4步问答生成专属方案，精准匹配预算与目标</p>
+            </div>
+            <div class="bg-secondary2 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <i class="fa-solid fa-book-open text-primary text-2xl mb-4"></i>
+                <h3 class="text-xl font-medium text-text1 mb-2">10+行业案例</h3>
+                <p class="text-text3">餐饮、服装、电商实战数据，可直接复用策略</p>
+            </div>
+            <div class="bg-secondary2 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <i class="fa-solid fa-download text-primary text-2xl mb-4"></i>
+                <h3 class="text-xl font-medium text-text1 mb-2">免费工具模板</h3>
+                <p class="text-text3">策划方案、预算计算器、活动日历，即下即用</p>
+            </div>
+        </section>
+    </main>
+
+    <!--  底部版权 -->
+    <footer class="bg-secondary2 py-8">
+        <div class="container mx-auto px-4 text-center text-text3 text-sm">
+            <p>© 2024 营销活动设计指南 | 部署于 GitHub Pages</p>
+            <p class="mt-2">联系邮箱：contact@yingxiaobao.com | 电话：400-123-4567</p>
+        </div>
+    </footer>
+
+    <!--  移动端菜单交互JS -->
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            // 切换图标（菜单/关闭）
+            const icon = menuBtn.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+
+        // 页面加载时，根据URL参数跳转筛选（如“清库存”入口）
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('target') && window.location.pathname.includes('activity-types.html')) {
+                const target = urlParams.get('target');
+                if (target === 'clear') {
+                    document.getElementById('targetFilter').value = 'clear';
+                    filterActivities(); // 触发筛选
+                }
+            }
+        });
+    </script>
+</body>
+</html>
