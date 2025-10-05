@@ -1,0 +1,1059 @@
+
+
+
+### 一、代码结构说明
+```
+Merchant-Campaign-Design/
+├─ index.html          # 首页（含需求入口、核心模块导航）
+├─ activity-types.html # 活动类型大全（可筛选卡片布局）
+├─ cases.html          # 行业案例页（标签化+对比表）
+├─ matching-tool.html  # 智能匹配工具（步骤交互+实时反馈）
+└─ images/             # 图片文件夹（需自行放入案例图/图标，代码中用占位链接）
+```
+
+
+### 二、核心页面代码（含响应式+交互）
+
+#### 1. 首页（index.html）
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>营销活动设计指南 - 首页</title>
+    <!-- 引入Tailwind CSS（快速实现样式） -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome（图标库） -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- 自定义Tailwind配置（统一色彩/字体） -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF7A45',    // 主色（橙色）
+                        secondary1: '#E8F3FF', // 辅助色1（浅蓝）
+                        secondary2: '#F5F5F5', // 辅助色2（浅灰）
+                        warning: '#FF4D4F',    // 警示色（红色）
+                        text1: '#333333',      // 文本色1（深灰）
+                        text2: '#666666',      // 文本色2（中灰）
+                        text3: '#999999',      // 文本色3（浅灰）
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'], // 中文无衬线字体
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white font-sans text-text2">
+    <!-- 顶部固定导航栏 -->
+    <header class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!--  Logo -->
+            <a href="index.html" class="text-primary text-2xl font-bold">营销活动指南</a>
+            
+            <!--  PC端导航（lg以上显示） -->
+            <nav class="hidden lg:flex items-center space-x-8">
+                <a href="index.html" class="text-primary font-medium">首页</a>
+                <a href="activity-types.html" class="hover:text-primary transition-colors">活动类型大全</a>
+                <a href="matching-tool.html" class="hover:text-primary transition-colors">智能匹配工具</a>
+                <a href="cases.html" class="hover:text-primary transition-colors">行业案例</a>
+                <a href="#" class="hover:text-primary transition-colors">策划指南</a>
+                <a href="#" class="hover:text-primary transition-colors">资源下载</a>
+            </nav>
+            
+            <!--  移动端汉堡菜单（lg以下显示） -->
+            <button id="menuBtn" class="lg:hidden text-text1 text-xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        
+        <!--  移动端侧边导航（默认隐藏） -->
+        <div id="mobileMenu" class="fixed top-14 left-0 right-0 bg-white border-b border-gray-200 lg:hidden hidden">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="index.html" class="py-2 text-primary font-medium">首页</a>
+                <a href="activity-types.html" class="py-2 hover:text-primary transition-colors">活动类型大全</a>
+                <a href="matching-tool.html" class="py-2 hover:text-primary transition-colors">智能匹配工具</a>
+                <a href="cases.html" class="py-2 hover:text-primary transition-colors">行业案例</a>
+                <a href="#" class="py-2 hover:text-primary transition-colors">策划指南</a>
+                <a href="#" class="py-2 hover:text-primary transition-colors">资源下载</a>
+            </div>
+        </div>
+    </header>
+
+    <!--  主内容区（顶部留导航高度） -->
+    <main class="container mx-auto px-4 pt-24 pb-16">
+        <!--  首页Banner -->
+        <section class="mb-12 text-center">
+            <h1 class="text-[clamp(24px,5vw,28px)] font-bold text-text1 mb-4">营销活动设计指南</h1>
+            <p class="text-lg text-text3 max-w-2xl mx-auto">为餐饮、零售、电商等行业定制高转化优惠方案，从活动策划到落地全流程支持</p>
+        </section>
+
+        <!--  需求场景入口（3个大按钮） -->
+        <section class="mb-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="activity-types.html?target=clear" class="bg-gradient-to-r from-primary to-primary/80 text-white rounded-lg py-10 px-4 text-center hover:shadow-lg transition-shadow">
+                <i class="fa-solid fa-box-archive text-3xl mb-3"></i>
+                <h3 class="text-xl font-medium">我要清库存</h3>
+                <p class="text-white/80 text-sm mt-1">专属折扣+满减方案</p>
+            </a>
+            <a href="cases.html?industry=catering" class="bg-gradient-to-r from-primary to-primary/80 text-white rounded-lg py-10 px-4 text-center hover:shadow-lg transition-shadow">
+                <i class="fa-solid fa-utensils text-3xl mb-3"></i>
+                <h3 class="text-xl font-medium">我是餐饮商家</h3>
+                <p class="text-white/80 text-sm mt-1">会员日+满赠案例</p>
+            </a>
+            <a href="activity-types.html?type=member" class="bg-gradient-to-r from-primary to-primary/80 text-white rounded-lg py-10 px-4 text-center hover:shadow-lg transition-shadow">
+                <i class="fa-solid fa-user-group text-3xl mb-3"></i>
+                <h3 class="text-xl font-medium">我要做会员运营</h3>
+                <p class="text-white/80 text-sm mt-1">积分+专属活动策略</p>
+            </a>
+        </section>
+
+        <!--  核心模块简介 -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-secondary2 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <i class="fa-solid fa-tags text-primary text-2xl mb-4"></i>
+                <h3 class="text-xl font-medium text-text1 mb-2">8大活动类型</h3>
+                <p class="text-text3">覆盖折扣、满减、赠品、抽奖等，适配不同行业需求</p>
+            </div>
+            <div class="bg-secondary2 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <i class="fa-solid fa-magnifying-glass-chart text-primary text-2xl mb-4"></i>
+                <h3 class="text-xl font-medium text-text1 mb-2">智能匹配工具</h3>
+                <p class="text-text3">4步问答生成专属方案，精准匹配预算与目标</p>
+            </div>
+            <div class="bg-secondary2 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <i class="fa-solid fa-book-open text-primary text-2xl mb-4"></i>
+                <h3 class="text-xl font-medium text-text1 mb-2">10+行业案例</h3>
+                <p class="text-text3">餐饮、服装、电商实战数据，可直接复用策略</p>
+            </div>
+            <div class="bg-secondary2 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <i class="fa-solid fa-download text-primary text-2xl mb-4"></i>
+                <h3 class="text-xl font-medium text-text1 mb-2">免费工具模板</h3>
+                <p class="text-text3">策划方案、预算计算器、活动日历，即下即用</p>
+            </div>
+        </section>
+    </main>
+
+    <!--  底部版权 -->
+    <footer class="bg-secondary2 py-8">
+        <div class="container mx-auto px-4 text-center text-text3 text-sm">
+            <p>© 2024 营销活动设计指南 | 部署于 GitHub Pages</p>
+            <p class="mt-2">联系邮箱：contact@yingxiaobao.com | 电话：400-123-4567</p>
+        </div>
+    </footer>
+
+    <!--  移动端菜单交互JS -->
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            // 切换图标（菜单/关闭）
+            const icon = menuBtn.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+
+        // 页面加载时，根据URL参数跳转筛选（如“清库存”入口）
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('target') && window.location.pathname.includes('activity-types.html')) {
+                const target = urlParams.get('target');
+                if (target === 'clear') {
+                    document.getElementById('targetFilter').value = 'clear';
+                    filterActivities(); // 触发筛选
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+```
+
+
+#### 2. 活动类型页（activity-types.html）
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动类型大全 - 营销活动设计指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF7A45',
+                        secondary1: '#E8F3FF',
+                        secondary2: '#F5F5F5',
+                        warning: '#FF4D4F',
+                        text1: '#333333',
+                        text2: '#666666',
+                        text3: '#999999',
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white font-sans text-text2">
+    <!--  顶部导航（同首页） -->
+    <header class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-primary text-2xl font-bold">营销活动指南</a>
+            <nav class="hidden lg:flex items-center space-x-8">
+                <a href="index.html" class="hover:text-primary transition-colors">首页</a>
+                <a href="activity-types.html" class="text-primary font-medium">活动类型大全</a>
+                <a href="matching-tool.html" class="hover:text-primary transition-colors">智能匹配工具</a>
+                <a href="cases.html" class="hover:text-primary transition-colors">行业案例</a>
+                <a href="#" class="hover:text-primary transition-colors">策划指南</a>
+                <a href="#" class="hover:text-primary transition-colors">资源下载</a>
+            </nav>
+            <button id="menuBtn" class="lg:hidden text-text1 text-xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="fixed top-14 left-0 right-0 bg-white border-b border-gray-200 lg:hidden hidden">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="index.html" class="py-2 hover:text-primary transition-colors">首页</a>
+                <a href="activity-types.html" class="py-2 text-primary font-medium">活动类型大全</a>
+                <a href="matching-tool.html" class="py-2 hover:text-primary transition-colors">智能匹配工具</a>
+                <a href="cases.html" class="py-2 hover:text-primary transition-colors">行业案例</a>
+                <a href="#" class="py-2 hover:text-primary transition-colors">策划指南</a>
+                <a href="#" class="py-2 hover:text-primary transition-colors">资源下载</a>
+            </div>
+        </div>
+    </header>
+
+    <!--  主内容区 + 侧边锚点 -->
+    <div class="flex flex-col lg:flex-row">
+        <!--  侧边锚点导航（lg以上显示） -->
+        <aside class="hidden lg:block fixed right-4 top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-md p-3 w-40">
+            <nav class="flex flex-col space-y-3">
+                <a href="#discount" class="anchor-link text-sm hover:text-primary transition-colors">折扣优惠</a>
+                <a href="#full-reduction" class="anchor-link text-sm hover:text-primary transition-colors">满减活动</a>
+                <a href="#gift" class="anchor-link text-sm hover:text-primary transition-colors">赠品活动</a>
+                <a href="#lottery" class="anchor-link text-sm hover:text-primary transition-colors">抽奖活动</a>
+                <a href="#member" class="anchor-link text-sm hover:text-primary transition-colors">会员活动</a>
+            </nav>
+        </aside>
+
+        <!--  主内容 -->
+        <main class="container mx-auto px-4 pt-24 pb-16 lg:pr-48">
+            <!--  面包屑导航 -->
+            <div class="mb-8 text-sm text-text3">
+                <a href="index.html" class="hover:text-primary">首页</a> > 活动类型大全
+            </div>
+
+            <!--  筛选栏 -->
+            <section class="mb-10 bg-secondary2 rounded-lg p-6">
+                <h2 class="text-xl font-medium text-text1 mb-4">筛选活动类型</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!--  行业筛选 -->
+                    <div>
+                        <label class="block text-sm text-text2 mb-2">行业</label>
+                        <select id="industryFilter" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary">
+                            <option value="all">全部行业</option>
+                            <option value="catering">餐饮</option>
+                            <option value="retail">零售</option>
+                            <option value="ecommerce">电商</option>
+                            <option value="beauty">美妆</option>
+                        </select>
+                    </div>
+                    <!--  目标筛选 -->
+                    <div>
+                        <label class="block text-sm text-text2 mb-2">活动目标</label>
+                        <select id="targetFilter" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary">
+                            <option value="all">全部目标</option>
+                            <option value="clear">清库存</option>
+                            <option value="repurchase">提复购</option>
+                            <option value="newuser">拉新客</option>
+                            <option value="increase">提客单价</option>
+                        </select>
+                    </div>
+                    <!--  预算筛选 -->
+                    <div>
+                        <label class="block text-sm text-text2 mb-2">预算范围</label>
+                        <select id="budgetFilter" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary">
+                            <option value="all">全部预算</option>
+                            <option value="low">低预算（<5%）</option>
+                            <option value="medium">中预算（5%-15%）</option>
+                            <option value="high">高预算（>15%）</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!--  活动卡片区域 -->
+            <section id="activityCards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!--  折扣优惠-全店折扣 -->
+                <div class="activity-card border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow" 
+                     data-industry="retail,ecommerce,beauty" 
+                     data-target="newuser" 
+                     data-budget="low">
+                    <h3 class="text-xl font-medium text-text1 mb-2">全店折扣</h3>
+                    <p class="text-text3 mb-4">新店开业快速拉客流，适合短期提升进店率</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">零售</span>
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">电商</span>
+                        <span class="bg-secondary1 text-blue-500 text-xs px-2 py-1 rounded">低预算</span>
+                    </div>
+                    <a href="#" class="text-primary text-sm font-medium hover:underline">查看详情 <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                </div>
+
+                <!--  满减活动-满额立减 -->
+                <div class="activity-card border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow" 
+                     data-industry="catering,retail,ecommerce" 
+                     data-target="increase" 
+                     data-budget="medium">
+                    <h3 class="text-xl font-medium text-text1 mb-2">满额立减</h3>
+                    <p class="text-text3 mb-4">固定满减档次（如满100减20），有效提升客单价</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">餐饮</span>
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">零售</span>
+                        <span class="bg-secondary1 text-blue-500 text-xs px-2 py-1 rounded">中预算</span>
+                    </div>
+                    <a href="#" class="text-primary text-sm font-medium hover:underline">查看详情 <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                </div>
+
+                <!--  赠品活动-满额加赠 -->
+                <div class="activity-card border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow" 
+                     data-industry="retail,beauty,ecommerce" 
+                     data-target="clear,increase" 
+                     data-budget="medium">
+                    <h3 class="text-xl font-medium text-text1 mb-2">满额加赠</h3>
+                    <p class="text-text3 mb-4">满额赠高价值礼品（如满500赠保温杯），刺激大额消费</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">零售</span>
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">美妆</span>
+                        <span class="bg-secondary1 text-blue-500 text-xs px-2 py-1 rounded">中预算</span>
+                    </div>
+                    <a href="#" class="text-primary text-sm font-medium hover:underline">查看详情 <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                </div>
+
+                <!--  更多卡片可按上述格式扩展 -->
+                <div class="activity-card border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow" 
+                     data-industry="catering" 
+                     data-target="repurchase" 
+                     data-budget="low">
+                    <h3 class="text-xl font-medium text-text1 mb-2">会员日折扣</h3>
+                    <p class="text-text3 mb-4">每周固定会员日全场8折，提升会员复购率</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">餐饮</span>
+                        <span class="bg-secondary1 text-blue-500 text-xs px-2 py-1 rounded">低预算</span>
+                    </div>
+                    <a href="#" class="text-primary text-sm font-medium hover:underline">查看详情 <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                </div>
+            </section>
+
+            <!--  筛选空状态（默认隐藏） -->
+            <section id="emptyState" class="hidden text-center py-16">
+                <i class="fa-solid fa-search-slash text-4xl text-text3 mb-4"></i>
+                <p class="text-text2">暂无匹配的活动类型，建议调整筛选条件</p>
+            </section>
+        </main>
+    </div>
+
+    <footer class="bg-secondary2 py-8">
+        <div class="container mx-auto px-4 text-center text-text3 text-sm">
+            <p>© 2024 营销活动设计指南 | 部署于 GitHub Pages</p>
+            <p class="mt-2">联系邮箱：contact@yingxiaobao.com | 电话：400-123-4567</p>
+        </div>
+    </footer>
+
+    <!--  交互JS（筛选+锚点） -->
+    <script>
+        // 移动端菜单
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = menuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // 活动筛选功能
+        const industryFilter = document.getElementById('industryFilter');
+        const targetFilter = document.getElementById('targetFilter');
+        const budgetFilter = document.getElementById('budgetFilter');
+        const activityCards = document.querySelectorAll('.activity-card');
+        const emptyState = document.getElementById('emptyState');
+
+        function filterActivities() {
+            const selectedIndustry = industryFilter.value;
+            const selectedTarget = targetFilter.value;
+            const selectedBudget = budgetFilter.value;
+            let visibleCount = 0;
+
+            activityCards.forEach(card => {
+                const cardIndustry = card.dataset.industry.split(',');
+                const cardTarget = card.dataset.target.split(',');
+                const cardBudget = card.dataset.budget;
+
+                // 筛选逻辑
+                const industryMatch = selectedIndustry === 'all' || cardIndustry.includes(selectedIndustry);
+                const targetMatch = selectedTarget === 'all' || cardTarget.includes(selectedTarget);
+                const budgetMatch = selectedBudget === 'all' || cardBudget === selectedBudget;
+
+                if (industryMatch && targetMatch && budgetMatch) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // 显示/隐藏空状态
+            if (visibleCount === 0) {
+                document.getElementById('activityCards').classList.add('hidden');
+                emptyState.classList.remove('hidden');
+            } else {
+                document.getElementById('activityCards').classList.remove('hidden');
+                emptyState.classList.add('hidden');
+            }
+        }
+
+        // 筛选器变化时触发筛选
+        industryFilter.addEventListener('change', filterActivities);
+        targetFilter.addEventListener('change', filterActivities);
+        budgetFilter.addEventListener('change', filterActivities);
+
+        // 锚点平滑滚动
+        document.querySelectorAll('.anchor-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // 锚点高亮
+                    document.querySelectorAll('.anchor-link').forEach(l => l.classList.remove('text-primary', 'font-medium'));
+                    link.classList.add('text-primary', 'font-medium');
+                }
+            });
+        });
+
+        // URL参数预筛选（如从首页“清库存”入口跳转）
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('target')) {
+                const target = urlParams.get('target');
+                if (target === 'clear') targetFilter.value = 'clear';
+                if (target === 'member') targetFilter.value = 'repurchase';
+                filterActivities();
+            }
+        });
+    </script>
+</body>
+</html>
+```
+
+
+#### 3. 行业案例页（cases.html）
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行业案例 - 营销活动设计指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF7A45',
+                        secondary1: '#E8F3FF',
+                        secondary2: '#F5F5F5',
+                        warning: '#FF4D4F',
+                        text1: '#333333',
+                        text2: '#666666',
+                        text3: '#999999',
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white font-sans text-text2">
+    <!--  顶部导航 -->
+    <header class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-primary text-2xl font-bold">营销活动指南</a>
+            <nav class="hidden lg:flex items-center space-x-8">
+                <a href="index.html" class="hover:text-primary transition-colors">首页</a>
+                <a href="activity-types.html" class="hover:text-primary transition-colors">活动类型大全</a>
+                <a href="matching-tool.html" class="hover:text-primary transition-colors">智能匹配工具</a>
+                <a href="cases.html" class="text-primary font-medium">行业案例</a>
+                <a href="#" class="hover:text-primary transition-colors">策划指南</a>
+                <a href="#" class="hover:text-primary transition-colors">资源下载</a>
+            </nav>
+            <button id="menuBtn" class="lg:hidden text-text1 text-xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="fixed top-14 left-0 right-0 bg-white border-b border-gray-200 lg:hidden hidden">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="index.html" class="py-2 hover:text-primary transition-colors">首页</a>
+                <a href="activity-types.html" class="py-2 hover:text-primary transition-colors">活动类型大全</a>
+                <a href="matching-tool.html" class="py-2 hover:text-primary transition-colors">智能匹配工具</a>
+                <a href="cases.html" class="py-2 text-primary font-medium">行业案例</a>
+                <a href="#" class="py-2 hover:text-primary transition-colors">策划指南</a>
+                <a href="#" class="py-2 hover:text-primary transition-colors">资源下载</a>
+            </div>
+        </div>
+    </header>
+
+    <!--  主内容区 -->
+    <main class="container mx-auto px-4 pt-24 pb-16">
+        <!--  面包屑 -->
+        <div class="mb-8 text-sm text-text3">
+            <a href="index.html" class="hover:text-primary">首页</a> > 行业案例
+        </div>
+
+        <!--  案例标签筛选 -->
+        <section class="mb-10">
+            <div class="flex flex-wrap gap-3 mb-6">
+                <button class="case-tag-btn bg-primary text-white px-4 py-1 rounded-full text-sm" data-tag="all">全部案例</button>
+                <button class="case-tag-btn bg-secondary2 text-text2 px-4 py-1 rounded-full text-sm hover:bg-primary/10 transition-colors" data-tag="catering">餐饮</button>
+                <button class="case-tag-btn bg-secondary2 text-text2 px-4 py-1 rounded-full text-sm hover:bg-primary/10 transition-colors" data-tag="retail">零售</button>
+                <button class="case-tag-btn bg-secondary2 text-text2 px-4 py-1 rounded-full text-sm hover:bg-primary/10 transition-colors" data-tag="ecommerce">电商</button>
+                <button class="case-tag-btn bg-secondary2 text-text2 px-4 py-1 rounded-full text-sm hover:bg-primary/10 transition-colors" data-tag="beauty">美妆</button>
+            </div>
+        </section>
+
+        <!--  案例列表（标签化） -->
+        <section class="mb-16">
+            <!--  餐饮案例-会员日 -->
+            <div class="case-card grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10 border-b border-gray-200 pb-10" data-industry="catering">
+                <div class="lg:col-span-1">
+                    <img src="https://picsum.photos/600/400?random=1" alt="餐饮会员日案例" class="w-full h-60 object-cover rounded-lg loading="lazy"">
+                    <p class="text-xs text-text3 mt-2 text-center">案例实拍：餐饮门店会员日海报</p>
+                </div>
+                <div class="lg:col-span-2">
+                    <!--  案例标签 -->
+                    <div class="flex gap-2 mb-4">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">餐饮</span>
+                        <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded">提复购</span>
+                        <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded">低预算</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-text1 mb-3">餐饮会员日：每周三8折+赠小吃券</h3>
+                    <div class="mb-4">
+                        <h4 class="text-text1 font-medium mb-2">活动策略</h4>
+                        <p class="text-text3">每周三设定为会员日，全场8折（不含酒水），到店消费即赠10元小吃券（下次可用），会员生日额外赠送6寸蛋糕。</p>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="text-text1 font-medium mb-2">核心效果</h4>
+                        <p class="text-text3">会员复购率提升45%，会员新增62%，周三单日销售额比平日高30%。</p>
+                    </div>
+                    <a href="#" class="text-primary font-medium hover:underline">查看完整方案 <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                </div>
+            </div>
+
+            <!--  零售案例-服装清仓 -->
+            <div class="case-card grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10 border-b border-gray-200 pb-10" data-industry="retail">
+                <div class="lg:col-span-1">
+                    <img src="https://picsum.photos/600/400?random=2" alt="服装清仓案例" class="w-full h-60 object-cover rounded-lg loading="lazy"">
+                    <p class="text-xs text-text3 mt-2 text-center">案例实拍：服装清仓货架陈列</p>
+                </div>
+                <div class="lg:col-span-2">
+                    <div class="flex gap-2 mb-4">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">零售</span>
+                        <span class="bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded">清库存</span>
+                        <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded">中预算</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-text1 mb-3">服装换季清仓：阶梯满减+旧款折扣</h3>
+                    <div class="mb-4">
+                        <h4 class="text-text1 font-medium mb-2">活动策略</h4>
+                        <p class="text-text3">阶梯满减（满200减50、满500减150），旧款额外8折，会员享双倍积分，积分可抵扣现金（100积分=10元）。</p>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="text-text1 font-medium mb-2">核心效果</h4>
+                        <p class="text-text3">滞销库存清理率70%，销售额提升300%，客流增长180%。</p>
+                    </div>
+                    <a href="#" class="text-primary font-medium hover:underline">查看完整方案 <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                </div>
+            </div>
+
+            <!--  电商案例-线上抽奖 -->
+            <div class="case-card grid grid-cols-1 lg:grid-cols-3 gap-6" data-industry="ecommerce">
+                <div class="lg:col-span-1">
+                    <img src="https://picsum.photos/600/400?random=3" alt="电商抽奖案例" class="w-full h-60 object-cover rounded-lg loading="lazy"">
+                    <p class="text-xs text-text3 mt-2 text-center">案例实拍：电商抽奖活动页面</p>
+                </div>
+                <div class="lg:col-span-2">
+                    <div class="flex gap-2 mb-4">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">电商</span>
+                        <span class="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded">拉新客</span>
+                        <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded">低预算</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-text1 mb-3">电商抽奖：关注+转发得优惠券</h3>
+                    <div class="mb-4">
+                        <h4 class="text-text1 font-medium mb-2">活动策略</h4>
+                        <p class="text-text3">用户关注店铺公众号+转发活动推文@3位好友，即可获得抽奖资格，奖品为50-200元无门槛优惠券，每日开奖1次。</p>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="text-text1 font-medium mb-2">核心效果</h4>
+                        <p class="text-text3">品牌曝光增长200%，新用户增长150%，优惠券使用率65%。</p>
+                    </div>
+                    <a href="#" class="text-primary font-medium hover:underline">查看完整方案 <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!--  案例对比表 -->
+        <section class="mb-10 overflow-x-auto">
+            <h2 class="text-xl font-medium text-text1 mb-6">各行业案例核心数据对比</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-secondary2 text-text1">
+                        <th class="border border-gray-300 px-4 py-3 text-left">行业</th>
+                        <th class="border border-gray-300 px-4 py-3 text-left">活动组合</th>
+                        <th class="border border-gray-300 px-4 py-3 text-left">核心效果</th>
+                        <th class="border border-gray-300 px-4 py-3 text-left">预算占比</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hover:bg-secondary1/50 transition-colors">
+                        <td class="border border-gray-300 px-4 py-3">餐饮</td>
+                        <td class="border border-gray-300 px-4 py-3">会员日8折+赠小吃券</td>
+                        <td class="border border-gray-300 px-4 py-3">复购率↑45%，会员↑62%</td>
+                        <td class="border border-gray-300 px-4 py-3">8%</td>
+                    </tr>
+                    <tr class="hover:bg-secondary1/50 transition-colors">
+                        <td class="border border-gray-300 px-4 py-3">零售（服装）</td>
+                        <td class="border border-gray-300 px-4 py-3">阶梯满减+会员积分</td>
+                        <td class="border border-gray-300 px-4 py-3">销售额↑300%，库存↓70%</td>
+                        <td class="border border-gray-300 px-4 py-3">12%</td>
+                    </tr>
+                    <tr class="hover:bg-secondary1/50 transition-colors">
+                        <td class="border border-gray-300 px-4 py-3">电商</td>
+                        <td class="border border-gray-300 px-4 py-3">关注转发抽奖+优惠券</td>
+                        <td class="border border-gray-300 px-4 py-3">新用户↑150%，曝光↑200%</td>
+                        <td class="border border-gray-300 px-4 py-3">5%</td>
+                    </tr>
+                    <tr class="hover:bg-secondary1/50 transition-colors">
+                        <td class="border border-gray-300 px-4 py-3">美妆</td>
+                        <td class="border border-gray-300 px-4 py-3">线下试用+满赠礼盒</td>
+                        <td class="border border-gray-300 px-4 py-3">新品转化率↑65%</td>
+                        <td class="border border-gray-300 px-4 py-3">15%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!--  广告模块（底部轻度广告） -->
+        <section class="bg-secondary2 rounded-lg p-6">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-lg font-medium text-text1 mb-1">需要专属营销方案落地支持？</h3>
+                    <p class="text-text3 text-sm">营销宝平台提供1对1活动策划+执行服务</p>
+                </div>
+                <a href="#" class="inline-block bg-primary text-white px-6 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors">
+                    咨询专属服务
+                </a>
+            </div>
+            <div class="absolute right-6 top-2 text-warning text-xs">广告</div>
+        </section>
+    </main>
+
+    <footer class="bg-secondary2 py-8">
+        <div class="container mx-auto px-4 text-center text-text3 text-sm">
+            <p>© 2024 营销活动设计指南 | 部署于 GitHub Pages</p>
+            <p class="mt-2">联系邮箱：contact@yingxiaobao.com | 电话：400-123-4567</p>
+        </div>
+    </footer>
+
+    <!--  交互JS（标签筛选+URL预筛选） -->
+    <script>
+        // 移动端菜单
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = menuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // 案例标签筛选
+        const tagBtns = document.querySelectorAll('.case-tag-btn');
+        const caseCards = document.querySelectorAll('.case-card');
+
+        tagBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 按钮样式切换
+                tagBtns.forEach(b => {
+                    b.classList.remove('bg-primary', 'text-white');
+                    b.classList.add('bg-secondary2', 'text-text2');
+                });
+                btn.classList.remove('bg-secondary2', 'text-text2');
+                btn.classList.add('bg-primary', 'text-white');
+
+                // 筛选案例
+                const selectedTag = btn.dataset.tag;
+                caseCards.forEach(card => {
+                    const cardIndustry = card.dataset.industry;
+                    if (selectedTag === 'all' || cardIndustry === selectedTag) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // URL参数预筛选（如从首页“餐饮商家”入口跳转）
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('industry')) {
+                const industry = urlParams.get('industry');
+                tagBtns.forEach(btn => {
+                    if (btn.dataset.tag === industry) {
+                        btn.click(); // 触发对应标签筛选
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+```
+
+
+#### 4. 智能匹配工具页（matching-tool.html）
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能匹配工具 - 营销活动设计指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF7A45',
+                        secondary1: '#E8F3FF',
+                        secondary2: '#F5F5F5',
+                        warning: '#FF4D4F',
+                        text1: '#333333',
+                        text2: '#666666',
+                        text3: '#999999',
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white font-sans text-text2">
+    <!--  顶部导航 -->
+    <header class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-primary text-2xl font-bold">营销活动指南</a>
+            <nav class="hidden lg:flex items-center space-x-8">
+                <a href="index.html" class="hover:text-primary transition-colors">首页</a>
+                <a href="activity-types.html" class="hover:text-primary transition-colors">活动类型大全</a>
+                <a href="matching-tool.html" class="text-primary font-medium">智能匹配工具</a>
+                <a href="cases.html" class="hover:text-primary transition-colors">行业案例</a>
+                <a href="#" class="hover:text-primary transition-colors">策划指南</a>
+                <a href="#" class="hover:text-primary transition-colors">资源下载</a>
+            </nav>
+            <button id="menuBtn" class="lg:hidden text-text1 text-xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="fixed top-14 left-0 right-0 bg-white border-b border-gray-200 lg:hidden hidden">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="index.html" class="py-2 hover:text-primary transition-colors">首页</a>
+                <a href="activity-types.html" class="py-2 hover:text-primary transition-colors">活动类型大全</a>
+                <a href="matching-tool.html" class="py-2 text-primary font-medium">智能匹配工具</a>
+                <a href="cases.html" class="py-2 hover:text-primary transition-colors">行业案例</a>
+                <a href="#" class="py-2 hover:text-primary transition-colors">策划指南</a>
+                <a href="#" class="py-2 hover:text-primary transition-colors">资源下载</a>
+            </div>
+        </div>
+    </header>
+
+    <!--  主内容区 -->
+    <main class="container mx-auto px-4 pt-24 pb-16">
+        <!--  面包屑 -->
+        <div class="mb-8 text-sm text-text3">
+            <a href="index.html" class="hover:text-primary">首页</a> > 智能匹配工具
+        </div>
+
+        <!--  工具标题 -->
+        <section class="mb-10 text-center">
+            <h1 class="text-[clamp(20px,4vw,24px)] font-bold text-text1 mb-3">4步生成专属营销方案</h1>
+            <p class="text-text3 max-w-2xl mx-auto">根据您的行业、目标与预算，精准推荐高转化活动类型</p>
+        </section>
+
+        <!--  步骤进度条 -->
+        <section class="mb-12">
+            <div class="w-full max-w-2xl mx-auto">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="step-text text-sm font-medium text-primary">1. 选择活动目标</span>
+                    <span class="step-text text-sm font-medium text-text3">2. 选择行业</span>
+                    <span class="step-text text-sm font-medium text-text3">3. 选择预算</span>
+                    <span class="step-text text-sm font-medium text-text3">4. 选择客户群体</span>
+                </div>
+                <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div id="progressBar" class="h-full bg-primary transition-all duration-500" style="width: 25%"></div>
+                </div>
+            </div>
+        </section>
+
+        <!--  问答步骤容器 -->
+        <section class="max-w-2xl mx-auto">
+            <!--  步骤1：选择目标 -->
+            <div id="step1" class="step-panel">
+                <h2 class="text-xl font-medium text-text1 mb-6">您的活动核心目标是什么？</h2>
+                <div class="space-y-4">
+                    <label class="block border border-gray-200 rounded-lg p-4 hover:bg-secondary1/50 transition-colors cursor-pointer">
+                        <input type="radio" name="target" value="clear" class="mr-2 accent-primary">
+                        <span class="font-medium text-text1">清库存</span>
+                        <p class="text-text3 text-sm mt-1">快速清理滞销商品，释放库存空间</p>
+                    </label>
+                    <label class="block border border-gray-200 rounded-lg p-4 hover:bg-secondary1/50 transition-colors cursor-pointer">
+                        <input type="radio" name="target" value="repurchase" class="mr-2 accent-primary">
+                        <span class="font-medium text-text1">提升复购率</span>
+                        <p class="text-text3 text-sm mt-1">促进老客户再次消费，增强客户粘性</p>
+                    </label>
+                    <label class="block border border-gray-200 rounded-lg p-4 hover:bg-secondary1/50 transition-colors cursor-pointer">
+                        <input type="radio" name="target" value="newuser" class="mr-2 accent-primary">
+                        <span class="font-medium text-text1">拉新客户</span>
+                        <p class="text-text3 text-sm mt-1">吸引新用户关注并完成首次消费</p>
+                    </label>
+                    <label class="block border border-gray-200 rounded-lg p-4 hover:bg-secondary1/50 transition-colors cursor-pointer">
+                        <input type="radio" name="target" value="increase" class="mr-2 accent-primary">
+                        <span class="font-medium text-text1">提升客单价</span>
+                        <p class="text-text3 text-sm mt-1">鼓励用户单次消费更多金额</p>
+                    </label>
+                </div>
+                <!--  实时反馈 -->
+                <div id="feedback1" class="mt-4 text-sm text-text3 hidden">
+                    <i class="fa-solid fa-info-circle text-primary mr-1"></i>
+                    <span>清库存适合用“特定商品折扣+组合优惠”，成本可控且见效快</span>
+                </div>
+                <!--  下一步按钮 -->
+                <button id="toStep2" class="mt-8 w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed" disabled>
+                    下一步 <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+
+            <!--  步骤2：选择行业（默认隐藏） -->
+            <div id="step2" class="step-panel hidden">
+                <h2 class="text-xl font-medium text-text1 mb-6">您的业务属于哪个行业？</h2>
+                <div class="space-y-4">
+                    <label class="block border border-gray-200 rounded-lg p-4 hover:bg-secondary1/50 transition-colors cursor-pointer">
+                        <input type="radio" name="industry" value="catering" class="mr-2 accent-primary">
+                        <span class="font-medium text-text1">餐饮</span>
+                        <p class="text-text3 text-sm mt-1">快餐、正餐、奶茶店等</p>
+                    </label>
+                    <label class="block border border-gray-200 rounded-lg p-4 hover:bg-secondary1/50 transition-colors cursor-pointer">
+                        <input type="radio" name="industry" value="retail" class="mr-2 accent-primary">
+                        <span class="font-medium text-text1">零售</span>
+                        <p class="text-text3 text-sm mt-1">服装、百货、便利店等</p>
+                    </label>
+                    <label class="block border border-gray-200 rounded-lg p-4 hover:bg-secondary1/50 transition-colors cursor-pointer">
+                        <input type="radio" name="industry" value="ecommerce" class="mr-2 accent-primary">
+                        <span class="font-medium text-text1">电商</span>
+                        <p class="text-text3 text-sm mt-1">淘宝、京东、抖音小店等</p>
+                    </label>
+                    <label class="block border border-gray-200 rounded-lg p-4 hover:bg-secondary1/50 transition-colors cursor-pointer">
+                        <input type="radio" name="industry" value="beauty" class="mr-2 accent-primary">
+                        <span class="font-medium text-text1">美妆</span>
+                        <p class="text-text3 text-sm mt-1">护肤品、化妆品、美妆工具等</p>
+                    </label>
+                </div>
+                <div id="feedback2" class="mt-4 text-sm text-text3 hidden">
+                    <i class="fa-solid fa-info-circle text-primary mr-1"></i>
+                    <span>餐饮行业推荐“会员日+满额赠小吃”，复购效果显著</span>
+                </div>
+                <div class="flex gap-4 mt-8">
+                    <button id="backToStep1" class="w-1/3 border border-gray-300 text-text2 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> 上一步
+                    </button>
+                    <button id="toStep3" class="w-2/3 bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed" disabled>
+                        下一步 <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!--  步骤3：选择预算（默认隐藏） -->
+            <div id="step3" class="step-panel hidden">
+                <h2 class="text-xl font-medium text-text1 mb-6">您的活动预算占销售额的比例？</h2>
+                <div class="space-y-4">
+                    <label class="block border border-gray-200 rounded-lg p-4 hover:bg-secondary1/50 transition-colors cursor-pointer">
+                        <input type="radio" name="budget" value="low" class="mr-2 accent-primary">
+                        <span class="font-medium text-text1">低预算（<5%）</span>
+                        <p class="text-text3 text-sm mt-1">适合低成本活动（如满减、抽奖）</p>
+                    </label>
+                    <label class="block border border-gray-200 rounded-lg p-4 hover:bg-secondary1/50 transition-colors cursor-pointer">
+                        <input type="radio" name="budget" value="medium" class="mr-2 accent-primary">
+                        <span class="font-medium text-text1">中预算（5%-15%）</span>
+                        <p class="text-text3 text-sm mt-1">可组合活动（如折扣+赠品）</p>
+                    </label>
+                    <label class="block border border-gray-200 rounded-lg p-4 hover:bg-secondary1/50 transition-colors cursor-pointer">
+                        <input type="radio" name="budget" value="high" class="mr-2 accent-primary">
+                        <span class="font-medium text-text1">高预算（>15%）</span>
+                        <p class="text-text3 text-sm mt-1">适合大型活动（如线下体验+满赠）</p>
+                    </label>
+                </div>
+                <div id="feedback3" class="mt-4 text-sm text-text3 hidden">
+                    <i class="fa-solid fa-info-circle text-primary mr-1"></i>
+                    <span>低预算推荐“线上抽奖+优惠券”，曝光成本低且转化高</span>
+                </div>
+                <div class="flex gap-4 mt-8">
+                    <button id="backToStep2" class="w-1/3 border border-gray-300 text-text2 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> 上一步
+                    </button>
+                    <button id="toStep4" class="w-2/3 bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed" disabled>
+                        下一步 <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!--  步骤4：选择客户群体（默认隐藏） -->
+            <div id="step4" class="step-panel hidden">
+                <h2 class="text-xl font-medium text-text1 mb-6">您的核心目标客户群体是？</h2>
+                <div class="space-y-4">
+                    <label class="block border border-gray-200 rounded-lg p-4 hover:bg-secondary1/50 transition-colors cursor-pointer">
+                        <input type="radio" name="customer" value="young" class="mr-2 accent-primary">
+                        <span class="font-medium text-text1">年轻人（18-30岁）</span>
+                        <p class="text-text3 text-sm mt-1">喜欢新鲜事物，活跃于社交媒体</p>
+                    </label>
+                    <label class="block border border-gray-200 rounded-lg p-4 hover:bg-secondary1/50 transition-colors cursor-pointer">
+                        <input type="radio" name="customer" value="middle" class="mr-2 accent-primary">
+                        <span class="font-medium text-text1">中年人（31-50岁）</span>
+                        <p class="text-text3 text-sm mt-1">注重性价比与品质</p>
+                    </label>
+                    <label class="block border border-gray-200 rounded-lg p-4 hover:bg-secondary1/50 transition-colors cursor-pointer">
+                        <input type="radio" name="customer" value="family" class="mr-2 accent-primary">
+                        <span class="font-medium text-text1">家庭客户</span>
+                        <p class="text-text3 text-sm mt-1">关注亲子、家庭套餐等</p>
+                    </label>
+                </div>
+                <div id="feedback4" class="mt-4 text-sm text-text3 hidden">
+                    <i class="fa-solid fa-info-circle text-primary mr-1"></i>
+                    <span>年轻人偏好“社交互动类活动”（如转发抽奖），传播性强</span>
+                </div>
+                <div class="flex gap-4 mt-8">
+                    <button id="backToStep3" class="w-1/3 border border-gray-300 text-text2 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> 上一步
+                    </button>
+                    <button id="toResult" class="w-2/3 bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed" disabled>
+                        生成方案 <i class="fa-solid fa-magic ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!--  结果页（默认隐藏） -->
+            <div id="resultPanel" class="step-panel hidden mt-8">
+                <div class="bg-secondary1 rounded-lg p-6 mb-8 text-center">
+                    <i class="fa-solid fa-check-circle text-primary text-3xl mb-3"></i>
+                    <h2 class="text-xl font-medium text-text1 mb-2">您的专属营销方案已生成！</h2>
+                    <p class="text-text3">基于“餐饮行业+提升复购+低预算+家庭客户”匹配</p>
+                </div>
+
+                <!--  推荐活动 -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-medium text-text1 mb-4">推荐活动类型</h3>
+                    <div class="border border-gray-200 rounded-lg p-4 mb-4">
+                        <h4 class="font-medium text-text1">餐饮会员日活动</h4>
+                        <p class="text-text3 text-sm mt-1">每周三会员日，家庭套餐8折，赠送儿童小吃1份</p>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h4 class="font-medium text-text1">满额赠家庭礼品</h4>
+                        <p class="text-text3 text-sm mt-1">消费满300元赠家庭餐具套装，刺激大额消费</p>
+                    </div>
+                </div>
+
+                <!--  同行业案例 -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-medium text-text1 mb-4">参考行业案例</h3>
+                    <a href="cases.html?industry=catering" class="block border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <h4 class="font-medium text-text1">餐饮会员日：复购率提升45%</h4>
+                        <p class="text-text3 text-sm mt-1">点击查看完整案例策略与数据</p>
+                    </a>
+                </div>
+
+                <!--  工具模板 -->
+                <div>
+                    <h3 class="text-lg font-medium text-text1 mb-4">配套工具下载</h3>
+                    <a href="#" class="inline-flex items-center gap-2 border border-primary text-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary/5 transition-colors">
+                        <i class="fa-solid fa-download"></i>
+                        下载餐饮会员活动策划模板（Word，2MB）
+                    </a>
+                </div>
+
+                <!--  重新匹配按钮 -->
+                <button id="restart" class="mt-8 w-full border border-primary text-primary py-3 rounded-lg font-medium hover:bg-primary/5 transition-colors">
+                    调整需求，重新匹配
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-secondary2 py-8">
+        <div class="container mx-auto px-4 text-center text-text3 text-sm">
+            <p>© 2024 营销活动设计指南 | 部署于 GitHub Pages</p>
+            <p class="mt-2">联系邮箱：contact@yingxiaobao.com | 电话：400-123-4567</p>
+        </div>
+    </footer>
+
+    <!--  交互JS（步骤切换+实时反馈） -->
+    <script>
+        // 移动端菜单
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = menuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // 步骤元素
+        const steps = ['step1', 'step2', 'step3', 'step4', 'resultPanel'];
+        const progressBar = document.getElementById('progressBar');
+        let currentStep = 1;
+
+        // 步骤1：目标选择
+        const targetRadios = document.querySelectorAll('input[name="target"]');
+        const toStep2 = document.getElementById('toStep2');
+        const feedback1 = document.getElementById('feedback1');
+
+        targetRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                toStep2.disabled = false;
+                // 显示实时反馈
+                feedback1.classList.remove('hidden');
+                if (radio.value === 'repurchase') {
+                    feedback1.innerHTML = '<i class="fa-solid fa-info-circle text-primary mr-1"></i><span>提升复购适合用“
