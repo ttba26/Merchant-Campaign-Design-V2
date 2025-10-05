@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动类型大全 - 营销活动设计指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF7A45',
+                        secondary1: '#E8F3FF',
+                        secondary2: '#F5F5F5',
+                        warning: '#FF4D4F',
+                        text1: '#333333',
+                        text2: '#666666',
+                        text3: '#999999',
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white font-sans text-text2">
+    <!--  顶部导航（同首页） -->
+    <header class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-primary text-2xl font-bold">营销活动指南</a>
+            <nav class="hidden lg:flex items-center space-x-8">
+                <a href="index.html" class="hover:text-primary transition-colors">首页</a>
+                <a href="activity-types.html" class="text-primary font-medium">活动类型大全</a>
+                <a href="matching-tool.html" class="hover:text-primary transition-colors">智能匹配工具</a>
+                <a href="cases.html" class="hover:text-primary transition-colors">行业案例</a>
+                <a href="#" class="hover:text-primary transition-colors">策划指南</a>
+                <a href="#" class="hover:text-primary transition-colors">资源下载</a>
+            </nav>
+            <button id="menuBtn" class="lg:hidden text-text1 text-xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="fixed top-14 left-0 right-0 bg-white border-b border-gray-200 lg:hidden hidden">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="index.html" class="py-2 hover:text-primary transition-colors">首页</a>
+                <a href="activity-types.html" class="py-2 text-primary font-medium">活动类型大全</a>
+                <a href="matching-tool.html" class="py-2 hover:text-primary transition-colors">智能匹配工具</a>
+                <a href="cases.html" class="py-2 hover:text-primary transition-colors">行业案例</a>
+                <a href="#" class="py-2 hover:text-primary transition-colors">策划指南</a>
+                <a href="#" class="py-2 hover:text-primary transition-colors">资源下载</a>
+            </div>
+        </div>
+    </header>
+
+    <!--  主内容区 + 侧边锚点 -->
+    <div class="flex flex-col lg:flex-row">
+        <!--  侧边锚点导航（lg以上显示） -->
+        <aside class="hidden lg:block fixed right-4 top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-md p-3 w-40">
+            <nav class="flex flex-col space-y-3">
+                <a href="#discount" class="anchor-link text-sm hover:text-primary transition-colors">折扣优惠</a>
+                <a href="#full-reduction" class="anchor-link text-sm hover:text-primary transition-colors">满减活动</a>
+                <a href="#gift" class="anchor-link text-sm hover:text-primary transition-colors">赠品活动</a>
+                <a href="#lottery" class="anchor-link text-sm hover:text-primary transition-colors">抽奖活动</a>
+                <a href="#member" class="anchor-link text-sm hover:text-primary transition-colors">会员活动</a>
+            </nav>
+        </aside>
+
+        <!--  主内容 -->
+        <main class="container mx-auto px-4 pt-24 pb-16 lg:pr-48">
+            <!--  面包屑导航 -->
+            <div class="mb-8 text-sm text-text3">
+                <a href="index.html" class="hover:text-primary">首页</a> > 活动类型大全
+            </div>
+
+            <!--  筛选栏 -->
+            <section class="mb-10 bg-secondary2 rounded-lg p-6">
+                <h2 class="text-xl font-medium text-text1 mb-4">筛选活动类型</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!--  行业筛选 -->
+                    <div>
+                        <label class="block text-sm text-text2 mb-2">行业</label>
+                        <select id="industryFilter" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary">
+                            <option value="all">全部行业</option>
+                            <option value="catering">餐饮</option>
+                            <option value="retail">零售</option>
+                            <option value="ecommerce">电商</option>
+                            <option value="beauty">美妆</option>
+                        </select>
+                    </div>
+                    <!--  目标筛选 -->
+                    <div>
+                        <label class="block text-sm text-text2 mb-2">活动目标</label>
+                        <select id="targetFilter" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary">
+                            <option value="all">全部目标</option>
+                            <option value="clear">清库存</option>
+                            <option value="repurchase">提复购</option>
+                            <option value="newuser">拉新客</option>
+                            <option value="increase">提客单价</option>
+                        </select>
+                    </div>
+                    <!--  预算筛选 -->
+                    <div>
+                        <label class="block text-sm text-text2 mb-2">预算范围</label>
+                        <select id="budgetFilter" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary">
+                            <option value="all">全部预算</option>
+                            <option value="low">低预算（<5%）</option>
+                            <option value="medium">中预算（5%-15%）</option>
+                            <option value="high">高预算（>15%）</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!--  活动卡片区域 -->
+            <section id="activityCards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!--  折扣优惠-全店折扣 -->
+                <div class="activity-card border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow" 
+                     data-industry="retail,ecommerce,beauty" 
+                     data-target="newuser" 
+                     data-budget="low">
+                    <h3 class="text-xl font-medium text-text1 mb-2">全店折扣</h3>
+                    <p class="text-text3 mb-4">新店开业快速拉客流，适合短期提升进店率</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">零售</span>
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">电商</span>
+                        <span class="bg-secondary1 text-blue-500 text-xs px-2 py-1 rounded">低预算</span>
+                    </div>
+                    <a href="#" class="text-primary text-sm font-medium hover:underline">查看详情 <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                </div>
+
+                <!--  满减活动-满额立减 -->
+                <div class="activity-card border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow" 
+                     data-industry="catering,retail,ecommerce" 
+                     data-target="increase" 
+                     data-budget="medium">
+                    <h3 class="text-xl font-medium text-text1 mb-2">满额立减</h3>
+                    <p class="text-text3 mb-4">固定满减档次（如满100减20），有效提升客单价</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">餐饮</span>
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">零售</span>
+                        <span class="bg-secondary1 text-blue-500 text-xs px-2 py-1 rounded">中预算</span>
+                    </div>
+                    <a href="#" class="text-primary text-sm font-medium hover:underline">查看详情 <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                </div>
+
+                <!--  赠品活动-满额加赠 -->
+                <div class="activity-card border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow" 
+                     data-industry="retail,beauty,ecommerce" 
+                     data-target="clear,increase" 
+                     data-budget="medium">
+                    <h3 class="text-xl font-medium text-text1 mb-2">满额加赠</h3>
+                    <p class="text-text3 mb-4">满额赠高价值礼品（如满500赠保温杯），刺激大额消费</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">零售</span>
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">美妆</span>
+                        <span class="bg-secondary1 text-blue-500 text-xs px-2 py-1 rounded">中预算</span>
+                    </div>
+                    <a href="#" class="text-primary text-sm font-medium hover:underline">查看详情 <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                </div>
+
+                <!--  更多卡片可按上述格式扩展 -->
+                <div class="activity-card border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow" 
+                     data-industry="catering" 
+                     data-target="repurchase" 
+                     data-budget="low">
+                    <h3 class="text-xl font-medium text-text1 mb-2">会员日折扣</h3>
+                    <p class="text-text3 mb-4">每周固定会员日全场8折，提升会员复购率</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded">餐饮</span>
+                        <span class="bg-secondary1 text-blue-500 text-xs px-2 py-1 rounded">低预算</span>
+                    </div>
+                    <a href="#" class="text-primary text-sm font-medium hover:underline">查看详情 <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                </div>
+            </section>
+
+            <!--  筛选空状态（默认隐藏） -->
+            <section id="emptyState" class="hidden text-center py-16">
+                <i class="fa-solid fa-search-slash text-4xl text-text3 mb-4"></i>
+                <p class="text-text2">暂无匹配的活动类型，建议调整筛选条件</p>
+            </section>
+        </main>
+    </div>
+
+    <footer class="bg-secondary2 py-8">
+        <div class="container mx-auto px-4 text-center text-text3 text-sm">
+            <p>© 2024 营销活动设计指南 | 部署于 GitHub Pages</p>
+            <p class="mt-2">联系邮箱：contact@yingxiaobao.com | 电话：400-123-4567</p>
+        </div>
+    </footer>
+
+    <!--  交互JS（筛选+锚点） -->
+    <script>
+        // 移动端菜单
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = menuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // 活动筛选功能
+        const industryFilter = document.getElementById('industryFilter');
+        const targetFilter = document.getElementById('targetFilter');
+        const budgetFilter = document.getElementById('budgetFilter');
+        const activityCards = document.querySelectorAll('.activity-card');
+        const emptyState = document.getElementById('emptyState');
+
+        function filterActivities() {
+            const selectedIndustry = industryFilter.value;
+            const selectedTarget = targetFilter.value;
+            const selectedBudget = budgetFilter.value;
+            let visibleCount = 0;
+
+            activityCards.forEach(card => {
+                const cardIndustry = card.dataset.industry.split(',');
+                const cardTarget = card.dataset.target.split(',');
+                const cardBudget = card.dataset.budget;
+
+                // 筛选逻辑
+                const industryMatch = selectedIndustry === 'all' || cardIndustry.includes(selectedIndustry);
+                const targetMatch = selectedTarget === 'all' || cardTarget.includes(selectedTarget);
+                const budgetMatch = selectedBudget === 'all' || cardBudget === selectedBudget;
+
+                if (industryMatch && targetMatch && budgetMatch) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // 显示/隐藏空状态
+            if (visibleCount === 0) {
+                document.getElementById('activityCards').classList.add('hidden');
+                emptyState.classList.remove('hidden');
+            } else {
+                document.getElementById('activityCards').classList.remove('hidden');
+                emptyState.classList.add('hidden');
+            }
+        }
+
+        // 筛选器变化时触发筛选
+        industryFilter.addEventListener('change', filterActivities);
+        targetFilter.addEventListener('change', filterActivities);
+        budgetFilter.addEventListener('change', filterActivities);
+
+        // 锚点平滑滚动
+        document.querySelectorAll('.anchor-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // 锚点高亮
+                    document.querySelectorAll('.anchor-link').forEach(l => l.classList.remove('text-primary', 'font-medium'));
+                    link.classList.add('text-primary', 'font-medium');
+                }
+            });
+        });
+
+        // URL参数预筛选（如从首页“清库存”入口跳转）
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('target')) {
+                const target = urlParams.get('target');
+                if (target === 'clear') targetFilter.value = 'clear';
+                if (target === 'member') targetFilter.value = 'repurchase';
+                filterActivities();
+            }
+        });
+    </script>
+</body>
+</html>
